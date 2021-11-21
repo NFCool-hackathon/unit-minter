@@ -1,0 +1,7 @@
+{
+  "name": "nfcool-unit-minter",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
