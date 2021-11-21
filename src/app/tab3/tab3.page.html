@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 3
+      Config
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,9 +9,15 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
+      <ion-title size="large">Config</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <div id="container">
+    <ion-item>
+      <ion-label position="stacked">Private Key</ion-label>
+      <ion-input placeholder="dhez23DhDZQ..." (ionChange)="change($event)"></ion-input>
+    </ion-item>
+    <ion-button expand="block">Set Private Key</ion-button>
+  </div>
 </ion-content>

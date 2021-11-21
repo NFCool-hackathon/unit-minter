@@ -7,6 +7,12 @@ import { Component } from '@angular/core';
 })
 export class Tab3Page {
 
+  privateKey = '';
+
   constructor() {}
+
+  change(e: CustomEvent) {
+    this.privateKey = e.detail.value;
+  }
 
 }

@@ -24,3 +24,23 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+.btn {
+  min-width: 200px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-action {
+  background: linear-gradient(99deg, var(--color-main), var(--color-main-darker));
+  color: white;
+}
+
+.btn-action:active {
+  -moz-box-shadow:    inset 0 0 7px #000000;
+  -webkit-box-shadow: inset 0 0 7px #000000;
+  box-shadow:         inset 0 0 7px #000000;
+}
