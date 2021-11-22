@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 2
+      Sell Item
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,9 +9,15 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
+      <ion-title size="large">Sell Item</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-button (click)="mintUnit()">Test writing</ion-button>
+  <ion-button (click)="sell()">Scan item</ion-button>
 </ion-content>
+<div class="modal-bg" *ngIf="modal !== 'none'"></div>
+<div class="modal-container" *ngIf="modal === 'read'" (click)="closeNfcModal()">
+  <div class="modal">
+    <p>Ready to read NFC...</p>
+  </div>
+</div>

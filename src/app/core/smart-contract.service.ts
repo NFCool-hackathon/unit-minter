@@ -47,4 +47,8 @@ export class SmartContractService {
     console.log(res);
     return parseInt(res.events.TokenUnitMinted.returnValues.unitId, 10);
   }
+
+  public async sellUnit(tokenId: number, unitId: number): Promise<void> {
+    return this.contract.methods.unitSold(tokenId, unitId).send({ from: this.authStore.account.address, gasLimit: 300000, gas: 300000 });
+  }
 }
