@@ -1,29 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@capacitor/storage';
 import Web3 from 'web3';
-import {Subject} from 'rxjs';
-import {infuraKovanProvider} from '../../../keys.env';
+import {AuthStore} from './auth.store';
+import {SmartContractService} from './smart-contract.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Web3Service {
 
-  public accountSubject = new Subject<string>();
-
-  public account;
-
-  constructor(private web3: Web3) {
+  constructor(private web3: Web3,
+              private authStore: AuthStore,
+              private smartContract: SmartContractService) {
     this.init();
   }
 
-  public isAccountSet(): boolean {
-    return this.account;
+  public isAuth(): boolean {
+    return this.authStore.account;
   }
 
   public getAccountAddress(): string {
-    if (this.account){
-      return this.account.address;
+    if (this.authStore.account){
+      return this.authStore.account.address;
     } else {
       return '';
     }
@@ -34,22 +32,30 @@ export class Web3Service {
       key: 'private-key',
       value: key,
     });
-    this.account = this.web3.eth.accounts.privateKeyToAccount(key);
-    this.accountSubject.next(this.account);
+    await this.setAccount(key);
 
-    this.web3.eth.accounts.wallet.add(key);
     return;
   }
 
   private async init(): Promise<void> {
-    this.web3.setProvider(infuraKovanProvider);
-
     const {value} = await Storage.get({ key: 'private-key' });
-    this.account = this.web3.eth.accounts.privateKeyToAccount(value);
-    this.accountSubject.next(this.account);
 
-    this.web3.eth.accounts.wallet.add(value);
+    await this.setAccount(value);
 
     return;
+  }
+
+  private async setAccount(privateKey: string): Promise<void> {
+    const account = this.web3.eth.accounts.privateKeyToAccount(privateKey);
+    const isMinter = await this.smartContract.isMinter(account.address);
+    if (isMinter) {
+      this.authStore.account = account;
+      this.authStore.accountSubject.next(this.authStore.account);
+      this.web3.eth.accounts.wallet.add(privateKey);
+
+      return ;
+    } else {
+      throw Error('Account is not minter');
+    }
   }
 }
