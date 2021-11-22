@@ -12,7 +12,6 @@ export class Web3Service {
   constructor(private web3: Web3,
               private authStore: AuthStore,
               private smartContract: SmartContractService) {
-    this.init();
   }
 
   public isAuth(): boolean {
@@ -37,7 +36,7 @@ export class Web3Service {
     return;
   }
 
-  private async init(): Promise<void> {
+  public async init(): Promise<void> {
     const {value} = await Storage.get({ key: 'private-key' });
 
     await this.setAccount(value);

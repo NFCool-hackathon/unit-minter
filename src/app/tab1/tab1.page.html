@@ -13,16 +13,19 @@
     </ion-toolbar>
   </ion-header>
   <div id="container">
-    <ion-item>
-      <ion-label position="stacked">Token ID</ion-label>
-      <ion-input type="number" (ionChange)="change($event)"></ion-input>
-    </ion-item>
-    <br>
-    <div class="grid">
-      <div class="grid-item" *ngFor="let token of tokens; let i = index">
-        <div class="grid-image clickable" [routerLink]="'/mint-token/' + i" style="background-image: url('{{token.uri}}')">
+    <div *ngIf="account">
+      <ion-item>
+        <ion-label position="stacked">Token ID</ion-label>
+        <ion-input type="number" (ionChange)="change($event)"></ion-input>
+      </ion-item>
+      <br>
+      <div class="grid">
+        <div class="grid-item" *ngFor="let token of tokens; let i = index">
+          <div class="grid-image clickable" [routerLink]="'/mint-token/' + i" style="background-image: url('{{token.uri}}')">
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <p *ngIf="!account">You need to set your minter private key in the settings</p>
 </ion-content>
