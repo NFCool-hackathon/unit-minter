@@ -29,4 +29,5 @@ npm-debug.log*
 /platforms
 /plugins
 /www
-keys.env.ts
+/keys.env.ts
+/android

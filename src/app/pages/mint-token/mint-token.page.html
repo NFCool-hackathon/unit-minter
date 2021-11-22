@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mint Token {{tokenId}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="content">
+    <ion-button expand="block" (click)="mintUnit()">Mint Unit</ion-button>
+  </div>
+</ion-content>
+<div class="modal-bg" *ngIf="modal !== 'none'"></div>
+<div class="modal-container" *ngIf="modal === 'read'" (click)="closeNfcModal()">
+  <div class="modal">
+    <p>Ready to read NFC...</p>
+  </div>
+</div>
+<div class="modal-container" *ngIf="modal === 'write'" (click)="closeNfcModal()">
+  <div class="modal">
+    <p>Ready to write NFC...</p>
+  </div>
+</div>

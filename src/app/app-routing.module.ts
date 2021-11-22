@@ -5,6 +5,10 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+  },
+  {
+    path: 'mint-token/:tokenId',
+    loadChildren: () => import('./pages/mint-token/mint-token.module').then( m => m.MintTokenPageModule)
   }
 ];
 @NgModule({

@@ -41,8 +41,10 @@ export class SmartContractService {
     return tokens;
   }
 
-  public async createTokenUnit(tokenId: number, nfcId: string) {
+  public async createTokenUnit(tokenId: number, nfcId: string): Promise<number> {
     // eslint-disable-next-line max-len
-    await this.contract.methods.mintTokenUnit(tokenId, nfcId, this.web3.utils.fromAscii('')).send({ from: this.authStore.account.address, gasLimit: 300000, gas: 300000 });
+    const res = await this.contract.methods.mintTokenUnit(tokenId, nfcId, this.web3.utils.fromAscii('')).send({ from: this.authStore.account.address, gasLimit: 300000, gas: 300000 });
+    console.log(res);
+    return parseInt(res.events.TokenUnitMinted.returnValues.unitId, 10);
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {SmartContractService} from '../core/smart-contract.service';
 
 @Component({
   selector: 'app-tab2',
@@ -7,6 +8,10 @@ import { Component } from '@angular/core';
 })
 export class Tab2Page {
 
-  constructor() {}
+  constructor(private smartContract: SmartContractService) {}
+
+  async mintUnit() {
+    await this.smartContract.createTokenUnit(1, '0x00');
+  }
 
 }
