@@ -9,9 +9,9 @@ import {infuraKovanProvider} from '../../../keys.env';
 })
 export class Web3Service {
 
-  public accountAddressSubject = new Subject<string>();
+  public accountSubject = new Subject<string>();
 
-  private account;
+  public account;
 
   constructor(private web3: Web3) {
     this.init();
@@ -21,22 +21,35 @@ export class Web3Service {
     return this.account;
   }
 
+  public getAccountAddress(): string {
+    if (this.account){
+      return this.account.address;
+    } else {
+      return '';
+    }
+  }
+
   public async setPrivateKey(key: string): Promise<void> {
     await Storage.set({
       key: 'private-key',
       value: key,
     });
     this.account = this.web3.eth.accounts.privateKeyToAccount(key);
-    this.accountAddressSubject.next(this.account.address);
-    return ;
+    this.accountSubject.next(this.account);
+
+    this.web3.eth.accounts.wallet.add(key);
+    return;
   }
 
   private async init(): Promise<void> {
+    this.web3.setProvider(infuraKovanProvider);
+
     const {value} = await Storage.get({ key: 'private-key' });
     this.account = this.web3.eth.accounts.privateKeyToAccount(value);
-    this.accountAddressSubject.next(this.account.address);
+    this.accountSubject.next(this.account);
 
-    this.web3.setProvider(infuraKovanProvider);
+    this.web3.eth.accounts.wallet.add(value);
+
     return;
   }
 }

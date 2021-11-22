@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {Web3Service} from '../core/web3.service';
-import {ToastController} from "@ionic/angular";
+import {ToastService} from '../core/toast.service';
 
 @Component({
   selector: 'app-tab3',
@@ -12,7 +12,7 @@ export class Tab3Page {
   privateKey = '';
 
   constructor(private web3Service: Web3Service,
-              private toastCtrl: ToastController) {}
+              private toastService: ToastService) {}
 
   change(e: CustomEvent) {
     this.privateKey = e.detail.value;
@@ -20,9 +20,10 @@ export class Tab3Page {
 
   setPrivateKey() {
     this.web3Service.setPrivateKey(this.privateKey).then(() => {
-      this.toastCtrl.create({message: 'The private key has been set'});
+      this.toastService.open('The private key has been set');
     }).catch(e => {
-      this.toastCtrl.create({message: 'An error has occur, please try again later.'});
+      console.error(e);
+      this.toastService.open('An error has occur, please try again later.');
     });
   }
 
