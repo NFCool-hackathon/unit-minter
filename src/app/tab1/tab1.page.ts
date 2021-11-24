@@ -11,7 +11,7 @@ import {SmartContractService} from '../core/smart-contract.service';
 })
 export class Tab1Page implements OnInit, OnDestroy{
 
-  account = '';
+  account = this.authStore.account;
 
   tokenId = null;
   tokens: TokenModel[] = [];

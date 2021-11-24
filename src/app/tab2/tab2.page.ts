@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SmartContractService} from '../core/smart-contract.service';
 import {LoadingService} from '../core/loading.service';
 import {NfcService} from '../core/nfc.service';
@@ -13,12 +13,12 @@ import {FunctionsService} from '../core/functions.service';
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page implements OnInit {
+export class Tab2Page implements OnInit, OnDestroy {
 
   modal: 'none' | 'read' = 'none';
 
   accountSub: Subscription;
-  account = '';
+  account = this.authStore.account;
 
   phoneNumber = '';
 
@@ -34,6 +34,10 @@ export class Tab2Page implements OnInit {
     this.accountSub = this.authStore.accountSubject.subscribe(account => {
       this.account = account;
     });
+  }
+
+  ngOnDestroy() {
+    this.accountSub.unsubscribe();
   }
 
   async sell() {
