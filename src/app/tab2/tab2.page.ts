@@ -1,24 +1,40 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SmartContractService} from '../core/smart-contract.service';
 import {LoadingService} from '../core/loading.service';
 import {NfcService} from '../core/nfc.service';
-import {NFC} from "@ionic-native/nfc/ngx";
-import {ToastService} from "../core/toast.service";
+import {NFC} from '@ionic-native/nfc/ngx';
+import {ToastService} from '../core/toast.service';
+import {Subscription} from 'rxjs';
+import {AuthStore} from '../core/auth.store';
+import {FunctionsService} from '../core/functions.service';
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page {
+export class Tab2Page implements OnInit {
 
   modal: 'none' | 'read' = 'none';
 
+  accountSub: Subscription;
+  account = '';
+
+  phoneNumber = '';
+
   constructor(private smartContract: SmartContractService,
+              private authStore: AuthStore,
               private loading: LoadingService,
               private nfcService: NfcService,
               private toast: ToastService,
-              private nfc: NFC) {}
+              private nfc: NFC,
+              private cloudFunctions: FunctionsService) {}
+
+  ngOnInit() {
+    this.accountSub = this.authStore.accountSubject.subscribe(account => {
+      this.account = account;
+    });
+  }
 
   async sell() {
     this.modal = 'read';
@@ -31,6 +47,7 @@ export class Tab2Page {
 
     this.loading.startLoading();
     await this.smartContract.sellUnit(tokenId, unitId);
+    await this.cloudFunctions.setPhoneNumber(tokenId, unitId, this.phoneNumber);
     this.loading.stopLoading();
     this.toast.open('The item has been updated');
   }
@@ -39,4 +56,7 @@ export class Tab2Page {
     this.modal = 'none';
   }
 
+  change(e: CustomEvent) {
+    this.phoneNumber = e.detail.value;
+  }
 }

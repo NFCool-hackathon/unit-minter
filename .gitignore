@@ -31,3 +31,9 @@ npm-debug.log*
 /www
 /keys.env.ts
 /android
+
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json
+!/src/environments/firebase.config.ts
