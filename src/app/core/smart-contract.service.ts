@@ -21,8 +21,12 @@ export class SmartContractService {
     this.web3.setProvider(infuraKovanProvider);
   }
 
-  public async isMinter(account: string) {
-    return await this.contract.methods.hasRole(keccak256('MINTER_ROLE'), account).call();
+  public async isSupplier(account: string) {
+    return await this.contract.methods.hasRole(keccak256('SUPPLIER_ROLE'), account).call();
+  }
+
+  public async isSeller(account: string) {
+    return await this.contract.methods.hasRole(keccak256('SELLER_ROLE'), account).call();
   }
 
   public async getToken(id: number): Promise<TokenModel> {

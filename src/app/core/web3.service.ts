@@ -46,8 +46,11 @@ export class Web3Service {
 
   private async setAccount(privateKey: string): Promise<void> {
     const account = this.web3.eth.accounts.privateKeyToAccount(privateKey);
-    const isMinter = await this.smartContract.isMinter(account.address);
-    if (isMinter) {
+    this.authStore.isSupplier = await this.smartContract.isSupplier(account.address);
+    this.authStore.isSupplierSubject.next(this.authStore.isSupplier);
+    this.authStore.isSeller = await this.smartContract.isSeller(account.address);
+    this.authStore.isSellerSubject.next(this.authStore.isSeller);
+    if (this.authStore.isSupplier || this.authStore.isSeller) {
       this.authStore.account = account;
       this.authStore.accountSubject.next(this.authStore.account);
       this.web3.eth.accounts.wallet.add(privateKey);

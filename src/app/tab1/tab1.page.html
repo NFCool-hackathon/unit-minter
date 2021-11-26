@@ -13,7 +13,7 @@
     </ion-toolbar>
   </ion-header>
   <div id="container">
-    <div *ngIf="account">
+    <div *ngIf="account && isSupplier">
       <ion-item>
         <ion-label position="stacked">Token ID</ion-label>
         <ion-input type="number" (ionChange)="change($event)"></ion-input>
@@ -28,4 +28,5 @@
     </div>
   </div>
   <p *ngIf="!account">You need to set your minter private key in the settings</p>
+  <p *ngIf="!isSupplier && account">You need a <b>supplier</b> account to access this page</p>
 </ion-content>

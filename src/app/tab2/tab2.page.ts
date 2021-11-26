@@ -18,7 +18,10 @@ export class Tab2Page implements OnInit, OnDestroy {
   modal: 'none' | 'read' = 'none';
 
   accountSub: Subscription;
+  isSellerSub: Subscription;
+
   account = this.authStore.account;
+  isSeller = this.authStore.isSeller;
 
   phoneNumber = '';
 
@@ -34,6 +37,12 @@ export class Tab2Page implements OnInit, OnDestroy {
     this.accountSub = this.authStore.accountSubject.subscribe(account => {
       this.account = account;
     });
+
+    this.isSellerSub = this.authStore.isSellerSubject.subscribe(seller => {
+      this.isSeller = seller;
+    });
+
+    this.isSeller = this.authStore.isSeller;
   }
 
   ngOnDestroy() {

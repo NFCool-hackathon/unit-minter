@@ -13,14 +13,15 @@
     </ion-toolbar>
   </ion-header>
 
-  <div class="content">
-    <ion-item *ngIf="account">
+  <div class="content" *ngIf="account && isSeller">
+    <ion-item >
       <ion-label position="stacked">Phone Number</ion-label>
       <ion-input type="string" (ionChange)="change($event)"></ion-input>
     </ion-item>
     <ion-button *ngIf="account" [disabled]="!phoneNumber" (click)="sell()">Sell item</ion-button>
-    <p *ngIf="!account">You need to set your minter private key in the settings</p>
   </div>
+  <p *ngIf="!account">You need to set your minter private key in the settings</p>
+  <p *ngIf="!isSeller && account">You need a <b>seller</b> account to access this page</p>
 </ion-content>
 <div class="modal-bg" *ngIf="modal !== 'none'"></div>
 <div class="modal-container" *ngIf="modal === 'read'" (click)="closeNfcModal()">

@@ -17,6 +17,9 @@ export class Tab1Page implements OnInit, OnDestroy{
   tokens: TokenModel[] = [];
 
   accountSub: Subscription;
+  isSupplierSub: Subscription;
+
+  isSupplier = this.authStore.isSupplier;
 
   constructor(private authStore: AuthStore,
               private smartContract: SmartContractService) {}
@@ -25,11 +28,17 @@ export class Tab1Page implements OnInit, OnDestroy{
     this.accountSub = this.authStore.accountSubject.subscribe(account => {
       this.account = account;
     });
+
+    this.isSupplierSub = this.authStore.isSupplierSubject.subscribe(supplier => {
+      this.isSupplier = supplier;
+    });
+
     this.getTokens();
   }
 
   ngOnDestroy() {
     this.accountSub.unsubscribe();
+    this.isSupplierSub.unsubscribe();
   }
 
   async getTokens() {
