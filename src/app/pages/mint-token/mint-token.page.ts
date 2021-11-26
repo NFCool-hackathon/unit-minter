@@ -3,6 +3,8 @@ import {ActivatedRoute} from '@angular/router';
 import {NfcService} from '../../core/nfc.service';
 import {LoadingService} from '../../core/loading.service';
 import {SmartContractService} from '../../core/smart-contract.service';
+import {TokenModel} from "../../models/token.model";
+import {ToastService} from "../../core/toast.service";
 
 @Component({
   selector: 'app-mint-token',
@@ -15,9 +17,12 @@ export class MintTokenPage implements OnInit {
 
   tokenId: number;
 
+  token: TokenModel;
+
   constructor(private route: ActivatedRoute,
               private nfcService: NfcService,
               private loading: LoadingService,
+              private toast: ToastService,
               private smartContract: SmartContractService) { }
 
   ngOnInit() {
@@ -25,6 +30,11 @@ export class MintTokenPage implements OnInit {
     if (tmpTokenId) {
       this.tokenId = parseInt(tmpTokenId, 10);
     }
+
+    this.smartContract.getToken(this.tokenId).then(token => {
+      console.log(token);
+      this.token = token;
+    });
   }
 
   async mintUnit() {
@@ -41,6 +51,7 @@ export class MintTokenPage implements OnInit {
     this.modal = 'write';
     await this.nfcService.writeAndLockTagAndroid('nfcool://website/token?tokenId=' + this.tokenId + '&unitId=' + unitId);
     this.modal = 'none';
+    this.toast.open('Unit ready !');
   }
 
   closeNfcModal() {

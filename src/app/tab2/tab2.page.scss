@@ -1,0 +1,10 @@
+.content {
+  width: 100%;
+  height: calc(100% - 51px);
+  padding: 10px;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+}

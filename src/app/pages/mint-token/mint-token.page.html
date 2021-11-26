@@ -6,6 +6,7 @@
 
 <ion-content>
   <div class="content">
+    <div *ngIf="token" class="image" [routerLink]="'/mint-token/' + i" style="background-image: url('{{token.uri}}')"></div>
     <ion-button expand="block" (click)="mintUnit()">Mint Unit</ion-button>
   </div>
 </ion-content>
