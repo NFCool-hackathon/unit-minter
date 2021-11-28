@@ -36,4 +36,4 @@ npm-debug.log*
 .firebase
 *-debug.log
 .runtimeconfig.json
-!/src/environments/firebase.config.ts
+/src/environments/firebase.config.ts
